@@ -5,14 +5,28 @@
 	<import namespace="http://www.alainn.com/SOA/model/1.0"
 		schemaLocation="SOA-Model-1.0.xsd" />
 
+	<element name="notifySKUItemMovement">
+		<complexType>
+			<sequence>
+				<element ref="mod:TransactedSku" maxOccurs="unbounded" />
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="notifySKUItemMovementResponse">
+	</element>
+
 	<element name="ItemSearchCriteria">
 		<complexType>
 			<all>
 				<element name="type" type="string" />
 				<element name="name" type="string" />
+				<element name="brand" type="string" />
 			</all>
 		</complexType>
 	</element>
+
+	<element name="ImageType" type="string" />
 
 	<element name="PageInfo">
 		<complexType>
@@ -68,11 +82,27 @@
 	<element name="processRegistrationResponse">
 		<complexType>
 			<sequence>
-				<element ref="mod:CustomerRegistrationStatus" />
+				<element ref="mod:CustomerId" />
 			</sequence>
 		</complexType>
 	</element>
 
+	<element name="saveCustomer">
+		<complexType>
+			<sequence>
+				<element ref="mod:Customer" />
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="saveCustomerResponse">
+		<complexType>
+			<sequence>
+				<element ref="mod:CustomerId" />
+			</sequence>
+		</complexType>
+	</element>
+	
 	<element name="checkRegistrationEmail">
 		<complexType>
 			<sequence>
@@ -119,8 +149,7 @@
 
 
 
-	<element name="addToBasketResponse">
-	</element>
+	<element name="addToBasketResponse" />
 
 	<element name="removeFromBasket">
 		<complexType>
@@ -243,6 +272,7 @@
 			<sequence>
 				<element ref="tns:PageInfo" />
 				<element ref="tns:ItemSearchCriteria" minOccurs="0" />
+				<element ref="tns:ImageType" minOccurs="0" />
 			</sequence>
 		</complexType>
 	</element>
@@ -254,10 +284,26 @@
 			</sequence>
 		</complexType>
 	</element>
+	<element name="getTypes">
+		<complexType>
+			<sequence>
+				<element ref="tns:PageInfo" />
+			</sequence>
+		</complexType>
+	</element>
+	<element name="getTypesResponse">
+		<complexType>
+			<sequence>
+				<element ref="tns:PageInfo" />
+				<element ref="mod:Type" maxOccurs="unbounded" />
+			</sequence>
+		</complexType>
+	</element>
 	<element name="getItem">
 		<complexType>
 			<sequence>
 				<element ref="mod:ItemId" />
+				<element ref="tns:ImageType" minOccurs="0"/>
 			</sequence>
 		</complexType>
 	</element>
@@ -269,7 +315,7 @@
 			</sequence>
 		</complexType>
 	</element>
-	
+
 	<element name="modifySKUStockCount">
 		<complexType>
 			<sequence>
@@ -278,8 +324,8 @@
 		</complexType>
 	</element>
 	<element name="modifySKUStockCountResponse" />
-	
-	
+
+
 
 	<element name="addLoyaltyPoints">
 		<complexType>
@@ -289,9 +335,7 @@
 			</sequence>
 		</complexType>
 	</element>
-	<element name="addLoyaltyPointsResponse">
-
-	</element>
+	<element name="addLoyaltyPointsResponse" />
 
 	<element name="addMobileToken">
 		<complexType>
@@ -301,9 +345,17 @@
 			</sequence>
 		</complexType>
 	</element>
-	<element name="addMobileTokenResponse">
-
+	<element name="addMobileTokenResponse" />
+	
+	<element name="addNotificationPreferences">
+		<complexType>
+			<sequence>
+				<element ref="mod:NotificationPreferences" />
+			</sequence>
+		</complexType>
 	</element>
+	<element name="addNotificationPreferencesResponse" />
+	
 	<element name="calculateDiscount">
 		<complexType>
 			<sequence>
@@ -329,7 +381,5 @@
 			</sequence>
 		</complexType>
 	</element>
-	<element name="distributeOrderResponse">
-
-	</element>
+	<element name="distributeOrderResponse" />
 </schema>

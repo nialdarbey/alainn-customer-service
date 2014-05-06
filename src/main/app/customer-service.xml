@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml"
-	xmlns:context="http://www.springframework.org/schema/context" xmlns:ws="http://www.mulesoft.org/schema/mule/ws" xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:https="http://www.mulesoft.org/schema/mule/https"
-	xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:cxf="http://www.mulesoft.org/schema/mule/cxf" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+<mule xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc" xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:context="http://www.springframework.org/schema/context" xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:https="http://www.mulesoft.org/schema/mule/https"
+	xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml" xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:cxf="http://www.mulesoft.org/schema/mule/cxf" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/current/mule-xml.xsd
-http://www.mulesoft.org/schema/mule/https http://www.mulesoft.org/schema/mule/https/current/mule-https.xsd
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/https http://www.mulesoft.org/schema/mule/https/current/mule-https.xsd
+http://www.mulesoft.org/schema/mule/xml http://www.mulesoft.org/schema/mule/xml/current/mule-xml.xsd
+http://www.mulesoft.org/schema/mule/cxf http://www.mulesoft.org/schema/mule/cxf/current/mule-cxf.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-current.xsd
+http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd
+http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/current/mule-scripting.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
-http://www.mulesoft.org/schema/mule/cxf http://www.mulesoft.org/schema/mule/cxf/current/mule-cxf.xsd
 http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
-http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/current/mule-scripting.xsd
-http://www.mulesoft.org/schema/mule/ws http://www.mulesoft.org/schema/mule/ws/current/mule-ws.xsd
-http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schema/mule/ee/data-mapper/current/mule-data-mapper.xsd
-http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-current.xsd
-http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/current/mule-sfdc.xsd">
     
     <https:connector name="httpsConnector" cookieSpec="netscape" validateConnections="true" sendBufferSize="0" receiveBufferSize="0" receiveBacklog="0" clientSoTimeout="10000" serverSoTimeout="10000" socketSoLinger="0" doc:name="HTTP\HTTPS">
         <service-overrides messageFactory="org.mule.transport.http.HttpMultipartMuleMessageFactory" />
@@ -32,6 +30,9 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
     <data-mapper:config name="map_to_xml" transformationGraphPath="map_to_xml.grf" doc:name="map_to_xml"/>
     <data-mapper:config name="string_to_xml" transformationGraphPath="string_to_xml.grf" doc:name="string_to_xml"/>
     <data-mapper:config name="string_to_xml_1" transformationGraphPath="string_to_xml_1.grf" doc:name="string_to_xml_1"/>
+    <data-mapper:config name="XML_To_XML" transformationGraphPath="xml_to_xml.grf" doc:name="XML_To_XML"/>
+    <sfdc:config name="Salesforce" username="retaildemo@mulesoft.com" password="Retail4Connect"  doc:name="Salesforce" securityToken="SCQUE3oNX6wMUvGGc7pRJPXga"/>
+    <data-mapper:config name="XML_To_List_Account_" transformationGraphPath="xml_to_list_account_.grf" doc:name="XML_To_List_Account_"/>
     
     <flow name="customerserviceFlow" doc:name="customerserviceFlow">
         <https:inbound-endpoint exchange-pattern="request-response" host="localhost" port="${https.port}" path="customer-service" doc:name=":8081/customer-service" connector-ref="httpsConnector"/>
@@ -40,6 +41,7 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
                 <cxf:schemaLocation>service/SOA-Message-1.0.xsd</cxf:schemaLocation>
             </cxf:schemaLocations>
         </cxf:proxy-service>
+        <mulexml:dom-to-xml-transformer doc:name="DOM to XML"/>
         <set-variable variableName="opName" value="#[xpath('fn:local-name(/*)')]" doc:name="opName"/>
         <choice doc:name="Choice">
             <when expression="#[opName == 'getCustomer']">
@@ -62,6 +64,31 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
                 </db:insert>
                 <data-mapper:transform config-ref="string_to_xml_1" input-ref="#[message.inboundProperties[&quot;http.query.string&quot;]]" doc:name="String To XML"/>
                 
+            </when>
+            <when expression="#[opName == 'saveCustomer']">
+                <transactional action="ALWAYS_BEGIN" doc:name="Transactional">
+                    <db:insert config-ref="MySQL_Configuration" target="flowVars.customerId" autoGeneratedKeys="true" autoGeneratedKeysColumnIndexes="1" autoGeneratedKeysColumnNames="id" doc:name="insert customer">
+                        <db:parameterized-query><![CDATA[insert into customer(first_name, last_name, email, mobile_token) values(#[xpath:/mes:saveCustomer/mod:Customer/firstName], #[xpath:/mes:saveCustomer/mod:Customer/lastName], #[xpath:/mes:saveCustomer/mod:Customer/email], #[xpath:/mes:saveCustomer/mod:Customer/mobileToken])]]></db:parameterized-query>
+                    </db:insert>
+                    <foreach collection="#[xpath:/mes:saveCustomer/mod:Customer/notificationPreferences/preference]" doc:name="For Each">
+                        <db:insert config-ref="MySQL_Configuration" doc:name="insert notification_preference">
+                            <db:parameterized-query><![CDATA[insert into notification_preference(customer_id, notification_type_id) values(#[flowVars.customerId[0].GENERATED_KEY], (select id from notification_type where name = #[payload.textContent]))]]></db:parameterized-query>
+                        </db:insert>
+                    </foreach>
+                    <!-- <enricher target="flowVars.x" doc:name="Message Enricher">
+                        <processor-chain doc:name="Processor Chain">
+                            <data-mapper:transform config-ref="XML_To_List_Account_" doc:name="XML To List&lt;Account&gt;"/>
+                            <sfdc:create config-ref="Salesforce" type="Account" doc:name="Create Account">
+                                <sfdc:objects ref="#[payload]"/>
+                            </sfdc:create>
+                        </processor-chain>
+                    </enricher> -->
+                </transactional>
+                <data-mapper:transform config-ref="XML_To_XML" doc:name="XML To XML">
+                    <data-mapper:input-arguments>
+                        <data-mapper:input-argument key="customerId">#[flowVars.customerId[0].GENERATED_KEY]</data-mapper:input-argument>
+                    </data-mapper:input-arguments>
+                </data-mapper:transform>
             </when>
             <otherwise>
                 <scripting:component doc:name="Exception">

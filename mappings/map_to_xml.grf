@@ -1,27 +1,26 @@
-<?xml version="1.0" encoding="UTF-8"?><Graph author="nialdarbey" created="Thu Apr 17 12:06:36 ART 2014" description="Map To XML" guiVersion="3.4.3.P" id="1397762952293" licenseCode="Unlicensed" licenseType="Unknown" modified="Thu Apr 17 12:06:36 ART 2014" modifiedBy="nialdarbey" name="Map_To_XML" revision="1.0" showComponentDetails="false">
+<?xml version="1.0" encoding="UTF-8"?><Graph __version="3.5.0" author="nialdarbey" created="Wed May 07 09:07:58 ART 2014" description="Map To XML" guiVersion="3.4.3.P" id="1399554203769" licenseCode="Unlicensed" licenseType="Unknown" modified="Wed May 07 09:07:58 ART 2014" modifiedBy="nialdarbey" name="Map_To_XML" revision="1.0" showComponentDetails="false">
 <Global>
-<Metadata __index="0" __referenceCounter="1" __sourcePath="{http://www.alainn.com/SOA/message/1.0=ns0}/ns0:getCustomerResponse" _dataStructure="OBJECT" _id="__id" _type="Output" id="02da00ff-a75c-440b-a5f5-800896bc52f9">
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{http://www.alainn.com/SOA/message/1.0=ns0}/ns0:getCustomerResponse" _dataStructure="OBJECT" _id="__id" _type="Output" id="ab2e3474-8d2b-4f1c-ba0d-f6b4011c13bc">
 <Record fieldDelimiter="," name="getCustomerResponse" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
 <Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
 <Field __index="0" __schemaType="{http://www.alainn.com/SOA/model/1.0}customerType" __sourcePath="{http://www.alainn.com/SOA/model/1.0=ns1,http://www.alainn.com/SOA/message/1.0=ns0}/ns0:getCustomerResponse/ns1:Customer/id" containerType="SINGLE" label="id" name="id" type="string"/>
 <Field __index="1" __schemaType="{http://www.alainn.com/SOA/model/1.0}customerType" __sourcePath="{http://www.alainn.com/SOA/model/1.0=ns1,http://www.alainn.com/SOA/message/1.0=ns0}/ns0:getCustomerResponse/ns1:Customer/firstName" containerType="SINGLE" label="firstName" name="firstName" type="string"/>
 <Field __index="2" __schemaType="{http://www.alainn.com/SOA/model/1.0}customerType" __sourcePath="{http://www.alainn.com/SOA/model/1.0=ns1,http://www.alainn.com/SOA/message/1.0=ns0}/ns0:getCustomerResponse/ns1:Customer/lastName" containerType="SINGLE" label="lastName" name="lastName" type="string"/>
 <Field __index="3" __schemaType="{http://www.alainn.com/SOA/model/1.0}customerType" __sourcePath="{http://www.alainn.com/SOA/model/1.0=ns1,http://www.alainn.com/SOA/message/1.0=ns0}/ns0:getCustomerResponse/ns1:Customer/email" containerType="SINGLE" label="email" name="email" type="string"/>
-<Field __index="4" __schemaType="{http://www.alainn.com/SOA/model/1.0}customerType" __sourcePath="{http://www.alainn.com/SOA/model/1.0=ns1,http://www.alainn.com/SOA/message/1.0=ns0}/ns0:getCustomerResponse/ns1:Customer/mobilePhoneNumber" containerType="SINGLE" label="mobilePhoneNumber" name="mobilePhoneNumber" type="string"/>
-<Field __index="5" __schemaType="{http://www.alainn.com/SOA/model/1.0}customerType" __sourcePath="{http://www.alainn.com/SOA/model/1.0=ns1,http://www.alainn.com/SOA/message/1.0=ns0}/ns0:getCustomerResponse/ns1:Customer/loyaltyPoints" containerType="SINGLE" label="loyaltyPoints" name="loyaltyPoints" type="integer"/>
-<Field __index="6" __schemaType="{http://www.alainn.com/SOA/model/1.0}mobileTokensType" __sourcePath="{http://www.alainn.com/SOA/model/1.0=ns1,http://www.alainn.com/SOA/message/1.0=ns0}/ns0:getCustomerResponse/ns1:Customer/mobileTokens/token" containerType="list" label="token" name="token" type="string"/>
-<Field __index="7" __sourcePath="{http://www.alainn.com/SOA/model/1.0=ns1,http://www.alainn.com/SOA/message/1.0=ns0}/ns0:getCustomerResponse/ns1:Customer/notificationPreferences/preference" containerType="list" label="preference" name="preference" type="string"/>
+<Field __index="4" __schemaType="{http://www.alainn.com/SOA/model/1.0}customerType" __sourcePath="{http://www.alainn.com/SOA/model/1.0=ns1,http://www.alainn.com/SOA/message/1.0=ns0}/ns0:getCustomerResponse/ns1:Customer/password" containerType="SINGLE" label="password" name="password" type="string"/>
+<Field __index="5" __schemaType="{http://www.alainn.com/SOA/model/1.0}customerType" __sourcePath="{http://www.alainn.com/SOA/model/1.0=ns1,http://www.alainn.com/SOA/message/1.0=ns0}/ns0:getCustomerResponse/ns1:Customer/mobilePhoneNumber" containerType="SINGLE" label="mobilePhoneNumber" name="mobilePhoneNumber" type="string"/>
+<Field __index="6" __schemaType="{http://www.alainn.com/SOA/model/1.0}customerType" __sourcePath="{http://www.alainn.com/SOA/model/1.0=ns1,http://www.alainn.com/SOA/message/1.0=ns0}/ns0:getCustomerResponse/ns1:Customer/loyaltyPoints" containerType="SINGLE" label="loyaltyPoints" name="loyaltyPoints" type="integer"/>
+<Field __index="7" __schemaType="{http://www.alainn.com/SOA/model/1.0}customerType" __sourcePath="{http://www.alainn.com/SOA/model/1.0=ns1,http://www.alainn.com/SOA/message/1.0=ns0}/ns0:getCustomerResponse/ns1:Customer/mobileToken" containerType="SINGLE" label="mobileToken" name="mobileToken" type="string"/>
+<Field __index="8" __schemaType="{http://www.alainn.com/SOA/model/1.0}notificationPreferencesType" __sourcePath="{http://www.alainn.com/SOA/model/1.0=ns1,http://www.alainn.com/SOA/message/1.0=ns0}/ns0:getCustomerResponse/ns1:Customer/notificationPreferences/preference" containerType="list" label="preference" name="preference" type="string"/>
 </Record>
 </Metadata>
-<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/resultSet" _dataStructure="OBJECT" _id="__id" _type="Input" id="e06f5bbb-e31f-45c4-b7bd-f6829687ed7a">
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/resultSet" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _id="__id" _type="Input" id="8077dfba-46a4-4cb1-9224-9c1aedba93a0">
 <Record fieldDelimiter="," name="resultSet" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
 <Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
 <Field __index="0" __sourcePath="{}/resultSet/email" containerType="SINGLE" label="email" name="email" type="string"/>
-<Field __index="2" __sourcePath="{}/resultSet/first_x005fname" containerType="SINGLE" label="first_name" name="first_name" type="string"/>
-<Field __index="3" __sourcePath="{}/resultSet/last_x005fname" containerType="SINGLE" label="last_name" name="last_name" type="string"/>
-<Field __index="4" __sourcePath="{}/resultSet/loyalty_points" containerType="SINGLE" label="loyalty_points" name="loyalty_points" type="integer"/>
-<Field __index="1" __sourcePath="{}/resultSet/mobile" containerType="SINGLE" label="mobile" name="mobile" type="string"/>
-<Field __sourcePath="{}/resultSet/id" containerType="SINGLE" label="id" name="id" type="string"/>
+<Field __index="1" __sourcePath="{}/resultSet/first_x005fname" containerType="SINGLE" label="first_name" name="first_name" type="string"/>
+<Field __index="2" __sourcePath="{}/resultSet/last_x005fname" containerType="SINGLE" label="last_name" name="last_name" type="string"/>
+<Field __index="3" __sourcePath="{}/resultSet/loyalty_points" containerType="SINGLE" label="loyalty_points" name="loyalty_points" type="integer"/>
 </Record>
 </Metadata>
 <Dictionary>
@@ -37,8 +36,6 @@
   <Mapping cloverField="first_name" trim="true" xpath="first_x005fname"/>
   <Mapping cloverField="last_name" trim="true" xpath="last_x005fname"/>
   <Mapping cloverField="loyalty_points" trim="true" xpath="loyalty_points"/>
-  <Mapping cloverField="mobile" trim="true" xpath="mobile"/>
-  <Mapping cloverField="id" trim="true" xpath="id"/>
 </Context>
 ]]></attr>
 <attr name="_data_format"><![CDATA[MAP]]></attr>
@@ -51,11 +48,10 @@
     <firstName>$0.firstName</firstName>
     <lastName>$0.lastName</lastName>
     <email>$0.email</email>
+    <password>$0.password</password>
     <mobilePhoneNumber>$0.mobilePhoneNumber</mobilePhoneNumber>
     <loyaltyPoints>$0.loyaltyPoints</loyaltyPoints>
-    <mobileTokens>
-      <token>$0.token</token>
-    </mobileTokens>
+    <mobileToken>$0.mobileToken</mobileToken>
     <notificationPreferences>
       <preference>$0.preference</preference>
     </notificationPreferences>
@@ -72,11 +68,9 @@ output.__id = input.__id;
 output.email = input.email;
 output.firstName = input.first_name;
 output.lastName = input.last_name;
-output.id = input.id;
-output.mobilePhoneNumber = input.mobile;
 output.loyaltyPoints = input.loyalty_points;]]></attr>
 </Node>
-<Edge debugMode="true" fromNode="BEAN_READER0:0" guiBendpoints="" id="Edge0" inPort="Port 0 (in)" metadata="e06f5bbb-e31f-45c4-b7bd-f6829687ed7a" outPort="Port 0 (out)" toNode="FOREACH_RESULT_SET_NS0_GET_CUSTOMER_RESPONSE:0"/>
-<Edge debugMode="true" fromNode="FOREACH_RESULT_SET_NS0_GET_CUSTOMER_RESPONSE:0" guiBendpoints="" id="Edge1" inPort="Port 0 (in)" metadata="02da00ff-a75c-440b-a5f5-800896bc52f9" outPort="Port 0 (out)" toNode="EXT_XML_WRITER0:0"/>
+<Edge debugMode="true" fromNode="BEAN_READER0:0" guiBendpoints="" id="Edge0" inPort="Port 0 (in)" metadata="8077dfba-46a4-4cb1-9224-9c1aedba93a0" outPort="Port 0 (out)" toNode="FOREACH_RESULT_SET_NS0_GET_CUSTOMER_RESPONSE:0"/>
+<Edge debugMode="true" fromNode="FOREACH_RESULT_SET_NS0_GET_CUSTOMER_RESPONSE:0" guiBendpoints="" id="Edge1" inPort="Port 0 (in)" metadata="ab2e3474-8d2b-4f1c-ba0d-f6b4011c13bc" outPort="Port 0 (out)" toNode="EXT_XML_WRITER0:0"/>
 </Phase>
 </Graph>

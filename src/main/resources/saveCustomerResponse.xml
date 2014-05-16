@@ -1,3 +1,3 @@
 <ns:saveCustomerResponse xmlns:ns="http://www.alainn.com/SOA/message/1.0" xmlns:ns1="http://www.alainn.com/SOA/model/1.0">
-   <ns1:CustomerId>#[flowVars.customerId[0].GENERATED_KEY]</ns1:CustomerId>
+   <ns1:CustomerId>#[customerId]</ns1:CustomerId>
 </ns:saveCustomerResponse>

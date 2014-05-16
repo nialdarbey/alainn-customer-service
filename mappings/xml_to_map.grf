@@ -24,7 +24,6 @@
 <Dictionary>
 <Entry id="DictionaryEntry0" input="true" name="inputPayload" output="false" type="object"/>
 <Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
-<Entry dictval.__javaType="java.lang.Long" id="DictionaryEntry2" input="true" name="customerId" output="false" type="long"/>
 </Dictionary>
 </Global>
 <Phase number="0">
@@ -34,7 +33,7 @@
 output.__id = input.__id;
 //END -> DO NOT REMOVE
 output.preference = input.preference;
-output.customerId = inputArguments.customerId;]]></attr>
+output.customerId = input.email;]]></attr>
 </Node>
 <Node cacheInMemory="true" enabled="enabled" fileURL="dict:outputPayload" guiName="Map&lt;k,v&gt; WRITER" guiX="900" guiY="20" id="MAP_WRITER0" type="MAP_WRITER">
 <attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>

@@ -83,6 +83,15 @@ http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfd
                 </transactional>
                 <parse-template location="saveCustomerResponse.xml" doc:name="saveCustomerResponse.xml"/>
             </when>
+            <when expression="#[opName == 'addMobileToken']">
+                <db:insert config-ref="MySQL_Configuration" doc:name="Database">
+                    <db:parameterized-query><![CDATA[
+                    	insert into mobile_token(customer_id, mobile_token_type_id, token) 
+                    	values (#[xpath:/mes:addMobileToken/mod:CustomerId], #[xpath:/mes:addMobileToken/mod:MobileTokenType], #[xpath:/mes:addMobileToken/mod:MobileToken])
+						on duplicate key update token = #[xpath:/mes:addMobileToken/mod:MobileToken]]]></db:parameterized-query>
+                </db:insert>
+                <parse-template location="template/addMobileTokenResponse.xml" doc:name="addMobileTokenResponse.xml"/>
+            </when>
             <otherwise>
                 <scripting:component doc:name="Exception">
                     <scripting:script engine="Groovy"><![CDATA[throw new RuntimeException("Unknown Operation: " + flowVars.opName);]]></scripting:script>

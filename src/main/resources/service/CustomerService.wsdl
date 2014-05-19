@@ -23,6 +23,13 @@
 	<wsdl:message name="addLoyaltyPointsResponse">
 		<wsdl:part element="mes:addLoyaltyPointsResponse" name="parameters" />
 	</wsdl:message>
+	<wsdl:message name="addMobileToken">
+		<wsdl:part element="mes:addMobileToken" name="parameters" />
+	</wsdl:message>
+	<wsdl:message name="addMobileTokenResponse">
+		<wsdl:part element="mes:addMobileTokenResponse" name="parameters" />
+	</wsdl:message>
+
 	<wsdl:portType name="Customer">
 		<wsdl:operation name="saveCustomer">
 			<wsdl:input message="tns:saveCustomer" />
@@ -35,6 +42,10 @@
 		<wsdl:operation name="addLoyaltyPoints">
 			<wsdl:input message="tns:addLoyaltyPoints" />
 			<wsdl:output message="tns:addLoyaltyPointsResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="addMobileToken">
+			<wsdl:input message="tns:addMobileToken" />
+			<wsdl:output message="tns:addMobileTokenResponse" />
 		</wsdl:operation>
 	</wsdl:portType>
 	<wsdl:binding name="CustomerSoap" type="tns:Customer">
@@ -66,6 +77,16 @@
 				<soap:body use="literal" />
 			</wsdl:output>
 		</wsdl:operation>
+		<wsdl:operation name="addMobileToken">
+			<soap:operation soapAction="http://www.alainn.com/SOA/service/Customer/1.0/addMobileToken" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
 	</wsdl:binding>
 	<wsdl:service name="CustomerService">
 		<wsdl:port binding="tns:CustomerSoap" name="CustomerPort">

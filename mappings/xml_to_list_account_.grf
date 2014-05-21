@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><Graph __version="3.5.0" author="nialdarbey" created="Mon May 05 10:16:16 ART 2014" description="XML To List&lt;Account&gt;" guiVersion="3.4.3.P" id="1399311070376" licenseCode="Unlicensed" licenseType="Unknown" modified="Mon May 05 10:16:16 ART 2014" modifiedBy="nialdarbey" name="XML_To_List_Account_" revision="1.0" showComponentDetails="false">
+<?xml version="1.0" encoding="UTF-8"?><Graph __version="3.5.0" author="nialdarbey" created="Mon May 05 10:16:16 ART 2014" description="XML To List&lt;Account&gt;" guiVersion="3.4.3.P" id="1399311070376" licenseCode="Unlicensed" licenseType="Unknown" modified="Mon May 05 10:16:16 ART 2014" modifiedBy="nialdarbey" name="XML_To_List_Account_" preview-file="${Project_Home}/src/test/resources/saveCustomer.xml" revision="1.0" showComponentDetails="false">
 <Global>
 <Metadata __index="0" __referenceCounter="1" __sourcePath="{}/Account" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _id="__id" _type="Output" id="964aacf3-9c22-4688-a110-5602a0600ae1">
 <Record fieldDelimiter="," name="Account" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">

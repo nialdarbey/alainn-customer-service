@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?><Graph __version="3.5.0" author="nialdarbey" created="Thu May 08 13:54:56 ART 2014" description="XML To Map" guiVersion="3.4.3.P" id="1399633394822" licenseCode="Unlicensed" licenseType="Unknown" modified="Thu May 08 13:54:56 ART 2014" modifiedBy="nialdarbey" name="XML_To_Map" revision="1.0" showComponentDetails="false">
+<?xml version="1.0" encoding="UTF-8"?><Graph __version="3.5.0" author="nialdarbey" created="Thu May 08 13:54:56 ART 2014" description="XML To Map" guiVersion="3.4.3.P" id="1399633394822" licenseCode="Unlicensed" licenseType="Unknown" modified="Thu May 08 13:54:56 ART 2014" modifiedBy="nialdarbey" name="XML_To_Map" preview-arguments="customerId:'nialdarbey'" preview-file="${Project_Home}/src/test/resources/saveCustomer.xml" revision="1.0" showComponentDetails="false">
 <Global>
-<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/preferences" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _id="__id" _type="Output" id="e5e0a13d-3975-4def-a8da-3c8be46487f2">
-<Record fieldDelimiter="," name="preferences" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/notificationPrefs" _dataStructure="OBJECT" _id="__id" _type="Output" id="ec5479fa-aeb2-4226-a4eb-0ee2387d6fc4">
+<Record fieldDelimiter="," name="notificationPrefs" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
 <Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
-<Field __index="0" __sourcePath="{}/preferences/customerId" containerType="SINGLE" label="customerId" name="customerId" type="string"/>
-<Field __index="1" __sourcePath="{}/preferences/preference" containerType="SINGLE" label="preference" name="preference" type="string"/>
+<Field __index="0" __sourcePath="{}/notificationPrefs/prefs" containerType="list" label="prefs" name="prefs" type="string"/>
 </Record>
 </Metadata>
 <Metadata __index="0" __referenceCounter="1" __sourcePath="{http://www.alainn.com/SOA/message/1.0=ns0}/ns0:saveCustomer" _dataStructure="OBJECT" _id="__id" _type="Input" id="cbc6624a-0e90-46bf-88d1-67433e5ad4d8">
@@ -24,25 +23,23 @@
 <Dictionary>
 <Entry id="DictionaryEntry0" input="true" name="inputPayload" output="false" type="object"/>
 <Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
+<Entry dictval.__javaType="java.lang.String" id="DictionaryEntry2" input="true" name="customerId" output="false" type="string"/>
 </Dictionary>
 </Global>
 <Phase number="0">
-<Node enabled="enabled" guiName="Foreach 'ns0:saveCustomer' -&gt; 'preferences'" guiX="460" guiY="20" id="FOREACH_NS0_SAVE_CUSTOMER_PREFERENCES" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<Node enabled="enabled" guiName="Foreach 'ns0:saveCustomer' -&gt; 'notificationPrefs'" guiX="460" guiY="20" id="FOREACH_NS0_SAVE_CUSTOMER_NOTIFICATION_PREFS" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
 <attr name="melScript"><![CDATA[//MEL
 //START -> DO NOT REMOVE
 output.__id = input.__id;
 //END -> DO NOT REMOVE
-output.preference = input.preference;
-output.customerId = input.email;]]></attr>
+output.prefs = input.preference;
+]]></attr>
 </Node>
 <Node cacheInMemory="true" enabled="enabled" fileURL="dict:outputPayload" guiName="Map&lt;k,v&gt; WRITER" guiX="900" guiY="20" id="MAP_WRITER0" type="MAP_WRITER">
 <attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<clover:collection clover:name="preferences" xmlns:clover="http://www.cloveretl.com/ns/xmlmapping">
-  <item clover:inPort="0">
-    <customerId>$0.customerId</customerId>
-    <preference>$0.preference</preference>
-  </item>
-</clover:collection>]]></attr>
+<notificationPrefs xmlns:clover="http://www.cloveretl.com/ns/xmlmapping" clover:inPort="0">
+  <clover:collection clover:name="prefs">$0.prefs</clover:collection>
+</notificationPrefs>]]></attr>
 <attr name="_data_format"><![CDATA[MAP]]></attr>
 </Node>
 <Node charset="UTF-8" enabled="enabled" fileURL="dict:inputPayload" guiName="XML READER" guiX="20" guiY="20" id="XML_READER0" type="XML_READER">
@@ -63,7 +60,7 @@ output.customerId = input.email;]]></attr>
 <attr name="_data_format"><![CDATA[XML]]></attr>
 <attr name="__rootGlobalElementName"><![CDATA[{http://www.alainn.com/SOA/message/1.0}saveCustomer]]></attr>
 </Node>
-<Edge debugMode="true" fromNode="FOREACH_NS0_SAVE_CUSTOMER_PREFERENCES:0" guiBendpoints="" id="Edge1" inPort="Port 0 (in)" metadata="e5e0a13d-3975-4def-a8da-3c8be46487f2" outPort="Port 0 (out)" toNode="MAP_WRITER0:0"/>
-<Edge debugMode="true" fromNode="XML_READER0:0" guiBendpoints="" id="Edge0" inPort="Port 0 (in)" metadata="cbc6624a-0e90-46bf-88d1-67433e5ad4d8" outPort="Port 0 (out)" toNode="FOREACH_NS0_SAVE_CUSTOMER_PREFERENCES:0"/>
+<Edge debugMode="true" fromNode="FOREACH_NS0_SAVE_CUSTOMER_NOTIFICATION_PREFS:0" guiBendpoints="" id="Edge1" inPort="Port 0 (in)" metadata="ec5479fa-aeb2-4226-a4eb-0ee2387d6fc4" outPort="Port 0 (out)" toNode="MAP_WRITER0:0"/>
+<Edge debugMode="true" fromNode="XML_READER0:0" guiBendpoints="" id="Edge0" inPort="Port 0 (in)" metadata="cbc6624a-0e90-46bf-88d1-67433e5ad4d8" outPort="Port 0 (out)" toNode="FOREACH_NS0_SAVE_CUSTOMER_NOTIFICATION_PREFS:0"/>
 </Phase>
 </Graph>

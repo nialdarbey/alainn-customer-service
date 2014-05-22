@@ -198,7 +198,7 @@
 		<complexType>
 			<sequence>
 				<element ref="mod:CustomerId" />
-				<element ref="mod:Order" />
+				<element ref="mod:OrderId" />
 			</sequence>
 		</complexType>
 	</element>

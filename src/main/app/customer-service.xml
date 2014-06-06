@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc" xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:context="http://www.springframework.org/schema/context" xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper" xmlns:https="http://www.mulesoft.org/schema/mule/https"
-	xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml" xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:cxf="http://www.mulesoft.org/schema/mule/cxf" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+<mule xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:data-mapper="http://www.mulesoft.org/schema/mule/ee/data-mapper"
+	xmlns:https="http://www.mulesoft.org/schema/mule/https" xmlns:mulexml="http://www.mulesoft.org/schema/mule/xml"
+	xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting"
+	xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking"
+	xmlns:cxf="http://www.mulesoft.org/schema/mule/cxf" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/https http://www.mulesoft.org/schema/mule/https/current/mule-https.xsd
@@ -15,98 +21,145 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
 http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/current/mule-sfdc.xsd">
-    
-    <https:connector name="httpsConnector" cookieSpec="netscape" validateConnections="true" sendBufferSize="0" receiveBufferSize="0" receiveBacklog="0" clientSoTimeout="10000" serverSoTimeout="10000" socketSoLinger="0" doc:name="HTTP\HTTPS">
-        <service-overrides messageFactory="org.mule.transport.http.HttpMultipartMuleMessageFactory" />
-        <https:tls-key-store path="keystore.jks" keyPassword="changeit" storePassword="changeit" />
-    </https:connector>
-    <mulexml:namespace-manager includeConfigNamespaces="true">
-        <mulexml:namespace prefix="mes" uri="http://www.alainn.com/SOA/message/1.0" />
-        <mulexml:namespace prefix="mod" uri="http://www.alainn.com/SOA/model/1.0" />
-    </mulexml:namespace-manager>
-    <context:property-placeholder location="config.prod.properties" />
-    
-    <db:mysql-config name="MySQL_Configuration" host="mule-demo-repository.cdumb7bgzajt.us-east-1.rds.amazonaws.com" port="3306" user="mule" password="Mule1379" database="alainn" doc:name="MySQL Configuration"/>
-    <sfdc:config name="Salesforce" username="retaildemo@mulesoft.com" password="Retail4Connect"  doc:name="Salesforce" securityToken="SCQUE3oNX6wMUvGGc7pRJPXga"/>
-    <data-mapper:config name="XML_To_List_Account_" transformationGraphPath="xml_to_list_account_.grf" doc:name="XML_To_List_Account_"/>
-    <data-mapper:config name="Map_To_XML" transformationGraphPath="map_to_xml.grf" doc:name="Map_To_XML"/>
-    <data-mapper:config name="XML_To_Map" transformationGraphPath="xml_to_map.grf" doc:name="XML_To_Map"/>
-    <data-mapper:config name="XML_To_Map_1" transformationGraphPath="xml_to_map_1.grf" doc:name="XML_To_Map_1"/>
-    
-    <flow name="customerserviceFlow" doc:name="customerserviceFlow">
-        <https:inbound-endpoint exchange-pattern="request-response" host="localhost" port="${https.port}" path="customer-service" doc:name=":8081/customer-service" connector-ref="httpsConnector"/>
-        <cxf:proxy-service doc:name="Proxy service" namespace="http://www.alainn.com/SOA/service/Customer/1.0" port="CustomerPort" service="CustomerService" wsdlLocation="service/CustomerService.wsdl" payload="body" >
-            <cxf:schemaLocations>
-                <cxf:schemaLocation>service/SOA-Message-1.0.xsd</cxf:schemaLocation>
-            </cxf:schemaLocations>
-        </cxf:proxy-service>
-        <mulexml:dom-to-xml-transformer doc:name="DOM to XML"/>
-        <set-variable variableName="opName" value="#[xpath('fn:local-name(/*)')]" doc:name="opName"/>
-        <choice doc:name="Choice">
-            <when expression="#[opName == 'getCustomer']">
-                <db:select config-ref="MySQL_Configuration" doc:name="select customer">
-                    <db:parameterized-query><![CDATA[select email, first_name, last_name, loyalty_points from customer where id = #[xpath:/mes:getCustomer/mod:CustomerId]]]></db:parameterized-query>
-                </db:select>
-                <data-mapper:transform config-ref="Map_To_XML" doc:name="Map To XML"/>
-                
-            </when>
-            <when expression="#[opName == 'addLoyaltyPoints']">
-                <db:update config-ref="MySQL_Configuration" doc:name="update customer loyalty points">
-                    <db:parameterized-query><![CDATA[update customer set loyalty_points = loyalty_points + #[xpath:/mes:addLoyaltyPoints/mod:CustomerLoyaltyPoints] where id = #[xpath:/mes:addLoyaltyPoints/mod:CustomerId]]]></db:parameterized-query>
-                </db:update>
-                <parse-template location="addLoyaltyPointsResponse.xml" doc:name="addLoyaltyPointsResponse.xml"/>
-                
-            </when>
-            <when expression="#[opName == 'saveCustomer']">
-            	<set-variable variableName="customerId" value="#[xpath:/mes:saveCustomer/mod:Customer/email]" doc:name="customerId" />
-                <transactional action="ALWAYS_BEGIN" doc:name="Transactional">
-                    <db:insert config-ref="MySQL_Configuration" doc:name="insert customer" transactionalAction="ALWAYS_JOIN" target="flowVars.x">
+
+	<https:connector name="httpsConnector" cookieSpec="netscape"
+		validateConnections="true" sendBufferSize="0" receiveBufferSize="0"
+		receiveBacklog="0" clientSoTimeout="10000" serverSoTimeout="10000"
+		socketSoLinger="0" doc:name="HTTP\HTTPS">
+		<service-overrides
+			messageFactory="org.mule.transport.http.HttpMultipartMuleMessageFactory" />
+		<https:tls-key-store path="keystore.jks"
+			keyPassword="changeit" storePassword="changeit" />
+	</https:connector>
+	<mulexml:namespace-manager
+		includeConfigNamespaces="true">
+		<mulexml:namespace prefix="mes"
+			uri="http://www.alainn.com/SOA/message/1.0" />
+		<mulexml:namespace prefix="mod"
+			uri="http://www.alainn.com/SOA/model/1.0" />
+	</mulexml:namespace-manager>
+    <secure-property-placeholder:config name="Secure_Property_Placeholder" key="${props.key}" location="config.${env}.properties" doc:name="Secure Property Placeholder"/>
+	<db:mysql-config name="MySQL_Configuration"
+		host="${db.host}"
+		port="3306" user="${db.user}" password="${db.password}" database="${db.database}"
+		doc:name="MySQL Configuration" />
+
+	<sfdc:config name="Salesforce" username="${sf.username}"
+		password="${sf.password}" doc:name="Salesforce" securityToken="${sf.token}" />
+	<data-mapper:config name="XML_To_List_Account_"
+		transformationGraphPath="xml_to_list_account_.grf" doc:name="XML_To_List_Account_" />
+	<data-mapper:config name="Map_To_XML"
+		transformationGraphPath="map_to_xml.grf" doc:name="Map_To_XML" />
+	<data-mapper:config name="XML_To_Map"
+		transformationGraphPath="xml_to_map.grf" doc:name="XML_To_Map" />
+	<data-mapper:config name="XML_To_Map_1"
+		transformationGraphPath="xml_to_map_1.grf" doc:name="XML_To_Map_1" />
+
+	<flow name="customerserviceFlow" doc:name="customerserviceFlow">
+		<https:inbound-endpoint exchange-pattern="request-response"
+			host="localhost" port="${https.port}" path="customer-service"
+			doc:name=":8081/customer-service" connector-ref="httpsConnector" />
+		<cxf:proxy-service doc:name="Proxy service"
+			namespace="http://www.alainn.com/SOA/service/Customer/1.0" port="CustomerPort"
+			service="CustomerService" wsdlLocation="service/CustomerService.wsdl"
+			payload="body">
+			<cxf:schemaLocations>
+				<cxf:schemaLocation>service/SOA-Message-1.0.xsd</cxf:schemaLocation>
+			</cxf:schemaLocations>
+		</cxf:proxy-service>
+		<mulexml:dom-to-xml-transformer
+			doc:name="DOM to XML" />
+		<set-variable variableName="opName"
+			value="#[xpath('fn:local-name(/*)')]" doc:name="opName" />
+		<choice doc:name="Choice">
+			<when expression="#[opName == 'getCustomer']">
+				<db:select config-ref="MySQL_Configuration" doc:name="select customer">
+					<db:parameterized-query><![CDATA[select email, first_name, last_name, loyalty_points from customer where id = #[xpath:/mes:getCustomer/mod:CustomerId]]]></db:parameterized-query>
+				</db:select>
+				<data-mapper:transform config-ref="Map_To_XML"
+					doc:name="Map To XML" />
+
+			</when>
+			<when expression="#[opName == 'addLoyaltyPoints']">
+				<db:update config-ref="MySQL_Configuration" doc:name="update customer loyalty points">
+					<db:parameterized-query><![CDATA[update customer set loyalty_points = loyalty_points + #[xpath:/mes:addLoyaltyPoints/mod:CustomerLoyaltyPoints] where id = #[xpath:/mes:addLoyaltyPoints/mod:CustomerId]]]></db:parameterized-query>
+				</db:update>
+				<parse-template location="addLoyaltyPointsResponse.xml"
+					doc:name="addLoyaltyPointsResponse.xml" />
+
+			</when>
+			<when expression="#[opName == 'saveCustomer']">
+				<set-variable variableName="customerId"
+					value="#[xpath:/mes:saveCustomer/mod:Customer/email]" doc:name="customerId" />
+				<transactional action="ALWAYS_BEGIN" doc:name="Transactional">
+					<db:insert config-ref="MySQL_Configuration" doc:name="insert customer"
+						transactionalAction="ALWAYS_JOIN" target="flowVars.x">
                         <db:parameterized-query><![CDATA[insert into customer(id, first_name, last_name, email) values(#[customerId], #[xpath:/mes:saveCustomer/mod:Customer/firstName], #[xpath:/mes:saveCustomer/mod:Customer/lastName], #[customerId])]]></db:parameterized-query>
-                    </db:insert>
-                    <enricher target="flowVars.x" doc:name="Message Enricher">
-                        <processor-chain doc:name="Processor Chain">
-                            <data-mapper:transform config-ref="XML_To_Map_1" doc:name="XML To Map"/>
-                            <expression-transformer doc:name="Expression" expression="#[
+					</db:insert>
+					<enricher target="flowVars.x" doc:name="Message Enricher">
+						<processor-chain doc:name="Processor Chain">
+							<data-mapper:transform config-ref="XML_To_Map_1"
+								doc:name="XML To Map" />
+							
+							<expression-transformer doc:name="to []"
+								expression="#[
                             	list = [];
-                            	for (String preference : payload.preferences) {
-                            		map = [ 'preference' : preference];
-                            		list.add(map);
-                            	};
+                            	if (! (payload is NullPayload)) {
+                            		for (String preference : payload['preferences']) {
+	                            		list.add(preference);
+	                            	}
+	                            };
                             	list
-                            ]"/>
-                            <db:insert config-ref="MySQL_Configuration" transactionalAction="ALWAYS_JOIN" target="flowVars.x" doc:name="Bulk insert notification_preference" bulkMode="true">
-                                <db:parameterized-query><![CDATA[insert into notification_preference(customer_id, notification_type_id) values(#[customerId], (select notification_type_id from notification_type where notification_type_name = #[payload.preference]))]]></db:parameterized-query>
-                            </db:insert>
-                        </processor-chain>
-                    </enricher>
-                    
-                    <data-mapper:transform config-ref="XML_To_List_Account_" doc:name="XML To List&lt;Account&gt;"/>
-                    <sfdc:create config-ref="Salesforce" type="Account" doc:name="Create Account">
-                        <sfdc:objects ref="#[payload]"/>
-                    </sfdc:create>
-                    <db:update config-ref="MySQL_Configuration" transactionalAction="ALWAYS_JOIN" doc:name="update customer with salesforce_id">
-                        <db:parameterized-query><![CDATA[update customer set salesforce_id = #[payload[0].RecordTypeId] where id = #[customerId]]]></db:parameterized-query>
-                    </db:update>
-                </transactional>
-                <parse-template location="saveCustomerResponse.xml" doc:name="saveCustomerResponse.xml"/>
-            </when>
-            <when expression="#[opName == 'addMobileToken']">
-                <db:insert config-ref="MySQL_Configuration" doc:name="Database">
-                    <db:parameterized-query><![CDATA[
+                            ]" />
+							
+
+							<choice doc:name="Choice">
+								<when expression="#[payload.size() &gt; 0]">
+									<db:insert config-ref="MySQL_Configuration"
+										transactionalAction="ALWAYS_JOIN" target="flowVars.x"
+										bulkMode="true" doc:name="Bulk insert notification_preference">
+										<db:parameterized-query><![CDATA[insert into notification_preference(customer_id, notification_type_id) values(#[customerId], (select notification_type_id from notification_type where notification_type_name = #[payload.preference]))]]></db:parameterized-query>
+									</db:insert>
+								</when>
+								<otherwise>
+									<logger message="No preferences" level="INFO" doc:name="No preferences" />
+								</otherwise>
+							</choice>
+						</processor-chain>
+					</enricher>
+
+					<data-mapper:transform config-ref="XML_To_List_Account_"
+						doc:name="XML To List&lt;Account&gt;" />
+					<sfdc:create config-ref="Salesforce" type="Account"
+						doc:name="Create Account">
+						<sfdc:objects ref="#[payload]" />
+					</sfdc:create>
+					<db:update config-ref="MySQL_Configuration"
+						transactionalAction="ALWAYS_JOIN" doc:name="update customer with salesforce_id">
+						<db:parameterized-query><![CDATA[update customer set salesforce_id = #[payload[0].RecordTypeId] where id = #[customerId]]]></db:parameterized-query>
+					</db:update>
+				</transactional>
+				<parse-template location="saveCustomerResponse.xml"
+					doc:name="saveCustomerResponse.xml" />
+			</when>
+			<when expression="#[opName == 'addMobileToken']">
+				<db:insert config-ref="MySQL_Configuration" doc:name="Database">
+					<db:parameterized-query><![CDATA[
                     	insert into mobile_token(customer_id, mobile_token_type_id, token) 
                     	values (#[xpath:/mes:addMobileToken/mod:CustomerId], #[xpath:/mes:addMobileToken/mod:MobileTokenType], #[xpath:/mes:addMobileToken/mod:MobileToken])
 						on duplicate key update token = #[xpath:/mes:addMobileToken/mod:MobileToken]]]></db:parameterized-query>
-                </db:insert>
-                <parse-template location="template/addMobileTokenResponse.xml" doc:name="addMobileTokenResponse.xml"/>
-            </when>
-            <otherwise>
-                <scripting:component doc:name="Exception">
-                    <scripting:script engine="Groovy"><![CDATA[throw new RuntimeException("Unknown Operation: " + flowVars.opName);]]></scripting:script>
-                </scripting:component>
-            </otherwise>
-        </choice>
+				</db:insert>
+				<parse-template location="template/addMobileTokenResponse.xml"
+					doc:name="addMobileTokenResponse.xml" />
+			</when>
+			<otherwise>
+				<scripting:component doc:name="Exception">
+					<scripting:script engine="Groovy"><![CDATA[throw new RuntimeException("Unknown Operation: " + flowVars.opName);]]></scripting:script>
+				</scripting:component>
+			</otherwise>
+		</choice>
 
-    </flow>
-   
+	</flow>
+
 
 </mule>

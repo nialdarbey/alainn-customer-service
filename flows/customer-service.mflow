@@ -32,7 +32,6 @@
                 <property name="path" value="keystore.jks"/>
                 <property name="storePassword" value="changeit"/>
                 <property name="keyPassword" value="changeit"/>
-                <property name="isProcessed$$$$ " value="true"/>
                 <property name="auxiliary;index" value="3"/>
                 <property name="auxiliary;wrapIn" value="3"/>
             </property-collection>
@@ -40,33 +39,23 @@
     </global-element>
     <global-unknown description="false" index="4" entity-id="global-unknown#1">
         <content>&lt;mulexml:namespace-manager xmlns:mulexml=&quot;http://www.mulesoft.org/schema/mule/xml&quot; includeConfigNamespaces=&quot;true&quot;&gt;
-        &lt;mulexml:namespace prefix=&quot;mes&quot; uri=&quot;http://www.alainn.com/SOA/message/1.0&quot;/&gt;
-        &lt;mulexml:namespace prefix=&quot;mod&quot; uri=&quot;http://www.alainn.com/SOA/model/1.0&quot;/&gt;
-    &lt;/mulexml:namespace-manager&gt;</content>
+		&lt;mulexml:namespace prefix=&quot;mes&quot; uri=&quot;http://www.alainn.com/SOA/message/1.0&quot;/&gt;
+		&lt;mulexml:namespace prefix=&quot;mod&quot; uri=&quot;http://www.alainn.com/SOA/model/1.0&quot;/&gt;
+	&lt;/mulexml:namespace-manager&gt;</content>
     </global-unknown>
-    <global-element name="Property Placeholder" type="http://www.springframework.org/schema/context/property-placeholder" entity-id="Property Placeholder#1">
-        <properties>
-            <property name="properties-ref"/>
-            <property name="order"/>
-            <property name="location" value="config.prod.properties"/>
-            <property name="local-override"/>
-            <property name="system-properties-mode"/>
-            <property name="file-encoding"/>
-            <property name="auxiliary;index" value="7"/>
-            <property name="ignore-unresolvable"/>
-            <property name="ignore-resource-not-found"/>
-        </properties>
-    </global-element>
+    <global-unknown description="false" unknownName="Secure_Property_Placeholder" index="7" entity-id="global-unknown#2">
+        <content>&lt;secure-property-placeholder-config xmlns=&quot;http://www.mulesoft.org/schema/mule/core&quot; name=&quot;Secure_Property_Placeholder&quot; key=&quot;${props.key}&quot; location=&quot;config.${env}.properties&quot; xmlns:doc=&quot;http://www.mulesoft.org/schema/mule/documentation&quot; doc:name=&quot;Secure Property Placeholder&quot;/&gt;</content>
+    </global-unknown>
     <global-element name="MySQL Configuration" type="http://www.mulesoft.org/schema/mule/db/mysql-config" entity-id="MySQL Configuration#1">
         <properties>
             <property name="port" value="3306"/>
-            <property name="host" value="mule-demo-repository.cdumb7bgzajt.us-east-1.rds.amazonaws.com"/>
+            <property name="host" value="${db.host}"/>
             <property name="auxiliary;metauseMetaData" value="true"/>
             <property name="driverClassName"/>
             <property name="parameterTable"/>
             <property name="transactionIsolation"/>
-            <property name="password" value="Mule1379"/>
-            <property name="database" value="alainn"/>
+            <property name="password" value="${db.password}"/>
+            <property name="database" value="${db.database}"/>
             <property name="url"/>
             <property name="connectionTimeout"/>
             <property name="dataSource-ref"/>
@@ -75,24 +64,24 @@
             <property name="springBeanConf"/>
             <property name="useXaTransactions"/>
             <property name="databaseURLConf"/>
-            <property name="user" value="mule"/>
+            <property name="user" value="${db.user}"/>
             <property name="auxiliary;index" value="8"/>
         </properties>
     </global-element>
     <global-element name="Salesforce" type="http://www.mulesoft.org/schema/mule/sfdc/config" entity-id="Salesforce#1">
         <properties>
             <property name="proxyUsername"/>
-            <property name="securityToken" value="SCQUE3oNX6wMUvGGc7pRJPXga"/>
+            <property name="securityToken" value="${sf.token}"/>
             <property name="proxyHost"/>
             <property name="auxiliary;metauseMetaData" value="true"/>
             <property name="allowFieldTruncationSupport"/>
             <property name="assignmentRuleId"/>
             <property name="proxyPort"/>
-            <property name="password" value="Retail4Connect"/>
+            <property name="password" value="${sf.password}"/>
             <property name="batchSobjectMaxDepth"/>
             <property name="clientId"/>
             <property name="url"/>
-            <property name="username" value="retaildemo@mulesoft.com"/>
+            <property name="username" value="${sf.username}"/>
             <property name="useDefaultRule"/>
             <property name="sessionId"/>
             <property name="serviceEndpoint"/>
@@ -130,7 +119,7 @@
             <property name="transformationGraphPath" value="xml_to_map_1.grf"/>
         </properties>
     </global-element>
-    <flow SubFlow="false" name="customerserviceFlow" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="047e1322-a1e4-4b6b-80e3-5d50935faa39">
+    <flow SubFlow="false" name="customerserviceFlow" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="f705d3f7-2ae8-451d-8d60-89b3cd481344">
         <properties>
             <property name="initialState"/>
             <property name="processingStrategy2"/>
@@ -223,94 +212,57 @@
             <splitter index="21" name="Choice" type="org.mule.tooling.ui.modules.core.pattern.cbr" entity-id="Choice#1">
                 <graphicalData x="0" y="0" width="0" height="0"/>
                 <properties>
-                    <property name=";INDEX" value="21"/>
-                    <property-collection name="3b49a2bc-528c-4f84-89ab-4701a3870f0d">
+                    <property-collection name="09080d16-2b43-47e5-a41b-32c7bafd0c7b">
                         <property name="choice.expression" value="#[opName == 'getCustomer']"/>
                         <property-collection name="choice.attributes">
                             <property name="expression" value="#[opName == 'getCustomer']"/>
                         </property-collection>
                     </property-collection>
-                    <property-collection name="91ffefc9-36df-4ba6-ba89-b31f7283842f">
+                    <property-collection name="e22953aa-e5f4-4a1e-b683-ce8c17dc0aeb">
                         <property name="choice.expression" value="#[opName == 'addLoyaltyPoints']"/>
                         <property-collection name="choice.attributes">
                             <property name="expression" value="#[opName == 'addLoyaltyPoints']"/>
                         </property-collection>
                     </property-collection>
-                    <property-collection name="74bf5bdb-08b2-40f2-9be4-4cc564786c46">
+                    <property-collection name="9e0855f4-f2c3-4aa4-a713-152c4c9b8b18">
                         <property name="choice.expression" value="#[opName == 'saveCustomer']"/>
                         <property-collection name="choice.attributes">
                             <property name="expression" value="#[opName == 'saveCustomer']"/>
                         </property-collection>
                     </property-collection>
-                    <property-collection name="32e841c0-cb3a-4c8b-aca4-a75d12fe9d3a">
+                    <property-collection name="5624523a-6bfc-463f-9897-430ad65af6ec">
                         <property name="choice.expression" value="#[opName == 'addMobileToken']"/>
                         <property-collection name="choice.attributes">
                             <property name="expression" value="#[opName == 'addMobileToken']"/>
                         </property-collection>
                     </property-collection>
-                    <property-collection name="f52f4297-9770-4706-81f9-2d53513f8d75">
+                    <property-collection name="5cf4a174-52cc-4e4b-b9fd-33c43522e3f2">
                         <property name="choice.otherwise" value="true"/>
                         <property-collection name="choice.attributes"/>
                     </property-collection>
                 </properties>
-                <description></description>
-                <pattern name="Choice" type="org.mule.tooling.ui.modules.core.pattern.cbr" entity-id="Choice#2">
-                    <properties>
-                        <property name=";INDEX" value="21"/>
-                        <property-collection name="3b49a2bc-528c-4f84-89ab-4701a3870f0d">
-                            <property name="choice.expression" value="#[opName == 'getCustomer']"/>
-                            <property-collection name="choice.attributes">
-<property name="expression" value="#[opName == 'getCustomer']"/>
-                            </property-collection>
-                        </property-collection>
-                        <property-collection name="91ffefc9-36df-4ba6-ba89-b31f7283842f">
-                            <property name="choice.expression" value="#[opName == 'addLoyaltyPoints']"/>
-                            <property-collection name="choice.attributes">
-<property name="expression" value="#[opName == 'addLoyaltyPoints']"/>
-                            </property-collection>
-                        </property-collection>
-                        <property-collection name="74bf5bdb-08b2-40f2-9be4-4cc564786c46">
-                            <property name="choice.expression" value="#[opName == 'saveCustomer']"/>
-                            <property-collection name="choice.attributes">
-<property name="expression" value="#[opName == 'saveCustomer']"/>
-                            </property-collection>
-                        </property-collection>
-                        <property-collection name="32e841c0-cb3a-4c8b-aca4-a75d12fe9d3a">
-                            <property name="choice.expression" value="#[opName == 'addMobileToken']"/>
-                            <property-collection name="choice.attributes">
-<property name="expression" value="#[opName == 'addMobileToken']"/>
-                            </property-collection>
-                        </property-collection>
-                        <property-collection name="f52f4297-9770-4706-81f9-2d53513f8d75">
-                            <property name="choice.otherwise" value="true"/>
-                            <property-collection name="choice.attributes"/>
-                        </property-collection>
-                    </properties>
-                    <description></description>
-                </pattern>
+                <pattern name="Choice" type="org.mule.tooling.ui.modules.core.pattern.cbr" entity-id="Choice#2"/>
                 <compartment entity-id="compartment#1">
-                    <lane hadOnlyOneElement="false" index="23" isChoiceOtherwiseLane="false" entity-id="3b49a2bc-528c-4f84-89ab-4701a3870f0d">
+                    <lane hadOnlyOneElement="false" index="23" isChoiceOtherwiseLane="false" entity-id="09080d16-2b43-47e5-a41b-32c7bafd0c7b">
                         <pattern name="select customer" type="http://www.mulesoft.org/schema/mule/db/database-connector" entity-id="Database#1">
                             <graphicalData x="0" y="0" width="0" height="0"/>
                             <properties>
-<property name="streaming" value="false"/>
-<property name="fetchSize" value=""/>
-<property name="auxiliary;erased;fetchSize" value="true"/>
-<property name="source" value=""/>
-<property name="updated"/>
-<property name="transactionalAction" value="JOIN_IF_POSSIBLE"/>
+<property name="streaming"/>
+<property name=""/>
+<property name="fetchSize"/>
+<property name="source"/>
+<property name="transactionalAction"/>
+<property name="target"/>
+<property name="maxRows"/>
 <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/db/select"/>
-<property name="target" value=""/>
-<property name="auxiliary;erased;maxRows" value="true"/>
-<property name="maxRows" value=""/>
 <property name="config-ref" value="MySQL_Configuration"/>
 <property name="auxiliary;index" value="23"/>
-<property name="auxiliary;metametadataStrategy" value="new-database-metadata-strategy"/>
 <property-collection name="@http://www.mulesoft.org/schema/mule/db/parameterized-query;0">
     <property name="text" value="select email, first_name, last_name, loyalty_points from customer where id = #[xpath:/mes:getCustomer/mod:CustomerId]"/>
+    <property name="auxiliary;index" value="24"/>
+    <property name="auxiliary;wrapIn" value="24"/>
 </property-collection>
                             </properties>
-                            <description></description>
                         </pattern>
                         <pattern name="Map To XML" type="http://www.mulesoft.org/schema/mule/ee/data-mapper/data-mapper-connector" entity-id="DataMapper#5">
                             <graphicalData x="0" y="0" width="0" height="0"/>
@@ -326,24 +278,24 @@
                             </properties>
                         </pattern>
                     </lane>
-                    <lane hadOnlyOneElement="false" index="27" isChoiceOtherwiseLane="false" entity-id="91ffefc9-36df-4ba6-ba89-b31f7283842f">
+                    <lane hadOnlyOneElement="false" index="27" isChoiceOtherwiseLane="false" entity-id="e22953aa-e5f4-4a1e-b683-ce8c17dc0aeb">
                         <pattern name="update customer loyalty points" type="http://www.mulesoft.org/schema/mule/db/database-connector" entity-id="Database#2">
                             <graphicalData x="0" y="0" width="0" height="0"/>
                             <properties>
-<property name="source" value=""/>
-<property name="updated"/>
-<property name="transactionalAction" value="JOIN_IF_POSSIBLE"/>
+<property name=""/>
+<property name="source"/>
+<property name="transactionalAction"/>
+<property name="target"/>
 <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/db/update"/>
-<property name="target" value=""/>
 <property name="config-ref" value="MySQL_Configuration"/>
 <property name="auxiliary;index" value="27"/>
-<property name="auxiliary;metametadataStrategy" value="new-database-metadata-strategy"/>
-<property name="bulkMode" value="false"/>
+<property name="bulkMode"/>
 <property-collection name="@http://www.mulesoft.org/schema/mule/db/parameterized-query;0">
     <property name="text" value="update customer set loyalty_points = loyalty_points + #[xpath:/mes:addLoyaltyPoints/mod:CustomerLoyaltyPoints] where id = #[xpath:/mes:addLoyaltyPoints/mod:CustomerId]"/>
+    <property name="auxiliary;index" value="28"/>
+    <property name="auxiliary;wrapIn" value="28"/>
 </property-collection>
                             </properties>
-                            <description></description>
                         </pattern>
                         <pattern name="addLoyaltyPointsResponse.xml" type="http://www.mulesoft.org/schema/mule/core/parse-template" entity-id="Parse Template#1">
                             <graphicalData x="0" y="0" width="0" height="0"/>
@@ -353,7 +305,7 @@
                             </properties>
                         </pattern>
                     </lane>
-                    <lane hadOnlyOneElement="false" index="31" isChoiceOtherwiseLane="false" entity-id="74bf5bdb-08b2-40f2-9be4-4cc564786c46">
+                    <lane hadOnlyOneElement="false" index="31" isChoiceOtherwiseLane="false" entity-id="9e0855f4-f2c3-4aa4-a713-152c4c9b8b18">
                         <pattern name="customerId" type="http://www.mulesoft.org/schema/mule/core/variable-transformer" entity-id="Variable#2">
                             <graphicalData x="0" y="0" width="0" height="0"/>
                             <properties>
@@ -370,27 +322,28 @@
 <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/core/transactional"/>
 <property name="auxiliary;index" value="32"/>
                             </properties>
-                            <description></description>
                             <compartment entity-id="compartment#2">
 <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#2">
     <pattern name="insert customer" type="http://www.mulesoft.org/schema/mule/db/database-connector" entity-id="Database#3">
         <graphicalData x="0" y="0" width="0" height="0"/>
         <properties>
-            <property name="source" value=""/>
-            <property name="updated"/>
+            <property name=""/>
+            <property name="source"/>
+            <property name="autoGeneratedKeysColumnNames"/>
             <property name="transactionalAction" value="ALWAYS_JOIN"/>
-            <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/db/insert"/>
             <property name="target" value="flowVars.x"/>
+            <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/db/insert"/>
+            <property name="autoGeneratedKeysColumnIndexes"/>
             <property name="config-ref" value="MySQL_Configuration"/>
             <property name="auxiliary;index" value="33"/>
-            <property name="autoGeneratedKeys" value="false"/>
-            <property name="auxiliary;metametadataStrategy" value="new-database-metadata-strategy"/>
-            <property name="bulkMode" value="false"/>
+            <property name="autoGeneratedKeys"/>
+            <property name="bulkMode"/>
             <property-collection name="@http://www.mulesoft.org/schema/mule/db/parameterized-query;0">
                 <property name="text" value="insert into customer(id, first_name, last_name, email) values(#[customerId], #[xpath:/mes:saveCustomer/mod:Customer/firstName], #[xpath:/mes:saveCustomer/mod:Customer/lastName], #[customerId])"/>
+                <property name="auxiliary;index" value="34"/>
+                <property name="auxiliary;wrapIn" value="34"/>
             </property-collection>
         </properties>
-        <description></description>
     </pattern>
     <scope name="Message Enricher" type="org.mule.tooling.ui.modules.core.scope.enricher" entity-id="Message Enricher#1">
         <graphicalData x="0" y="0" width="0" height="0"/>
@@ -409,7 +362,7 @@
                     <compartment entity-id="compartment#4">
                         <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#4">
                             <pattern name="XML To Map" type="http://www.mulesoft.org/schema/mule/ee/data-mapper/data-mapper-connector" entity-id="DataMapper#6">
-<graphicalData x="1124" y="291" width="80" height="67"/>
+<graphicalData x="0" y="0" width="0" height="0"/>
 <properties>
     <property name="returnClass"/>
     <property name="stream"/>
@@ -421,10 +374,10 @@
     <property name="auxiliary;index" value="37"/>
 </properties>
                             </pattern>
-                            <pattern name="Expression" type="http://www.mulesoft.org/schema/mule/core/expression-transformer" entity-id="Expression#1">
-<graphicalData x="1264" y="291" width="73" height="67"/>
+                            <pattern name="to []" type="http://www.mulesoft.org/schema/mule/core/expression-transformer" entity-id="Expression#1">
+<graphicalData x="0" y="0" width="0" height="0"/>
 <properties>
-    <property name="expression" value="#[&#xA;                            &#x9;list = [];&#xA;                            &#x9;for (String preference : payload.preferences) {&#xA;                            &#x9;&#x9;map = [ 'preference' : preference];&#xA;                            &#x9;&#x9;list.add(map);&#xA;                            &#x9;};&#xA;                            &#x9;list&#xA;                            ]"/>
+    <property name="expression" value="#[&#xA;                            &#x9;list = [];&#xA;                            &#x9;if (! (payload is NullPayload)) {&#xA;                            &#x9;&#x9;for (String preference : payload['preferences']) {&#xA;&#x9;                            &#x9;&#x9;list.add(preference);&#xA;&#x9;                            &#x9;}&#xA;&#x9;                            };&#xA;                            &#x9;list&#xA;                            ]"/>
     <property name="returnClass"/>
     <property name="ignoreBadInput"/>
     <property name="returnSourceIfNull"/>
@@ -436,25 +389,58 @@
     <property name="mimeType"/>
 </properties>
                             </pattern>
-                            <pattern name="Bulk insert notification_preference" type="http://www.mulesoft.org/schema/mule/db/database-connector" entity-id="Database#4">
-<graphicalData x="1525" y="284" width="137" height="80"/>
+                            <splitter index="39" name="Choice" type="org.mule.tooling.ui.modules.core.pattern.cbr" entity-id="Choice#3">
+<graphicalData x="0" y="0" width="0" height="0"/>
 <properties>
-    <property name="source" value=""/>
-    <property name="updated"/>
-    <property name="transactionalAction" value="ALWAYS_JOIN"/>
-    <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/db/insert"/>
-    <property name="target" value="flowVars.x"/>
-    <property name="config-ref" value="MySQL_Configuration"/>
-    <property name="auxiliary;index" value="40"/>
-    <property name="autoGeneratedKeys" value="false"/>
-    <property name="auxiliary;metametadataStrategy" value="new-database-metadata-strategy"/>
-    <property name="bulkMode" value="true"/>
-    <property-collection name="@http://www.mulesoft.org/schema/mule/db/parameterized-query;0">
-        <property name="text" value="insert into notification_preference(customer_id, notification_type_id) values(#[customerId], (select notification_type_id from notification_type where notification_type_name = #[payload.preference]))"/>
+    <property-collection name="ff469c66-c201-45b2-90ba-7709ebc5740c">
+        <property name="choice.expression" value="#[payload.size() &gt; 0]"/>
+        <property-collection name="choice.attributes">
+            <property name="expression" value="#[payload.size() &gt; 0]"/>
+        </property-collection>
+    </property-collection>
+    <property-collection name="b3f6c4b5-948f-4e80-b45d-4b3b3b31fbd0">
+        <property name="choice.otherwise" value="true"/>
+        <property-collection name="choice.attributes"/>
     </property-collection>
 </properties>
-<description></description>
-                            </pattern>
+<pattern name="Choice" type="org.mule.tooling.ui.modules.core.pattern.cbr" entity-id="Choice#4"/>
+<compartment entity-id="compartment#5">
+    <lane hadOnlyOneElement="false" index="41" isChoiceOtherwiseLane="false" entity-id="ff469c66-c201-45b2-90ba-7709ebc5740c">
+        <pattern name="Bulk insert notification_preference" type="http://www.mulesoft.org/schema/mule/db/database-connector" entity-id="Database#4">
+            <graphicalData x="0" y="0" width="0" height="0"/>
+            <properties>
+                <property name=""/>
+                <property name="source"/>
+                <property name="autoGeneratedKeysColumnNames"/>
+                <property name="transactionalAction" value="ALWAYS_JOIN"/>
+                <property name="target" value="flowVars.x"/>
+                <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/db/insert"/>
+                <property name="autoGeneratedKeysColumnIndexes"/>
+                <property name="config-ref" value="MySQL_Configuration"/>
+                <property name="auxiliary;index" value="41"/>
+                <property name="autoGeneratedKeys"/>
+                <property name="bulkMode" value="true"/>
+                <property-collection name="@http://www.mulesoft.org/schema/mule/db/parameterized-query;0">
+                    <property name="text" value="insert into notification_preference(customer_id, notification_type_id) values(#[customerId], (select notification_type_id from notification_type where notification_type_name = #[payload.preference]))"/>
+                    <property name="auxiliary;index" value="42"/>
+                    <property name="auxiliary;wrapIn" value="42"/>
+                </property-collection>
+            </properties>
+        </pattern>
+    </lane>
+    <lane hadOnlyOneElement="false" index="44" isChoiceOtherwiseLane="true" entity-id="b3f6c4b5-948f-4e80-b45d-4b3b3b31fbd0">
+        <pattern name="No preferences" type="http://www.mulesoft.org/schema/mule/core/logger" entity-id="Logger#1">
+            <graphicalData x="0" y="0" width="0" height="0"/>
+            <properties>
+                <property name="message" value="No preferences"/>
+                <property name="category"/>
+                <property name="level" value="INFO"/>
+                <property name="auxiliary;index" value="44"/>
+            </properties>
+        </pattern>
+    </lane>
+</compartment>
+                            </splitter>
                         </lane>
                     </compartment>
                 </scope>
@@ -471,7 +457,7 @@
             <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/ee/data-mapper/transform"/>
             <property name="pipeSize"/>
             <property name="config-ref" value="XML_To_List_Account_"/>
-            <property name="auxiliary;index" value="42"/>
+            <property name="auxiliary;index" value="45"/>
         </properties>
     </pattern>
     <pattern name="Create Account" type="http://www.mulesoft.org/schema/mule/sfdc/sfdc-connector" entity-id="Salesforce#2">
@@ -490,33 +476,32 @@
             <property name="serviceEndpoint"/>
             <property name="accessTokenId"/>
             <property name="config-ref" value="Salesforce"/>
-            <property name="auxiliary;index" value="43"/>
+            <property name="auxiliary;index" value="46"/>
             <property name="proxyPassword"/>
             <property-collection name="@http://www.mulesoft.org/schema/mule/sfdc/create-objectss;0">
                 <property name="ref" value="#[payload]"/>
-                <property name="auxiliary;index" value="44"/>
-                <property name="auxiliary;wrapIn" value="44"/>
+                <property name="auxiliary;index" value="47"/>
+                <property name="auxiliary;wrapIn" value="47"/>
             </property-collection>
         </properties>
-        <description></description>
     </pattern>
     <pattern name="update customer with salesforce_id" type="http://www.mulesoft.org/schema/mule/db/database-connector" entity-id="Database#5">
         <graphicalData x="0" y="0" width="0" height="0"/>
         <properties>
-            <property name="source" value=""/>
-            <property name="updated"/>
+            <property name=""/>
+            <property name="source"/>
             <property name="transactionalAction" value="ALWAYS_JOIN"/>
+            <property name="target"/>
             <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/db/update"/>
-            <property name="target" value=""/>
             <property name="config-ref" value="MySQL_Configuration"/>
-            <property name="auxiliary;index" value="45"/>
-            <property name="auxiliary;metametadataStrategy" value="new-database-metadata-strategy"/>
-            <property name="bulkMode" value="false"/>
+            <property name="auxiliary;index" value="48"/>
+            <property name="bulkMode"/>
             <property-collection name="@http://www.mulesoft.org/schema/mule/db/parameterized-query;0">
                 <property name="text" value="update customer set salesforce_id = #[payload[0].RecordTypeId] where id = #[customerId]"/>
+                <property name="auxiliary;index" value="49"/>
+                <property name="auxiliary;wrapIn" value="49"/>
             </property-collection>
         </properties>
-        <description></description>
     </pattern>
 </lane>
                             </compartment>
@@ -525,11 +510,11 @@
                             <graphicalData x="0" y="0" width="0" height="0"/>
                             <properties>
 <property name="location" value="saveCustomerResponse.xml"/>
-<property name="auxiliary;index" value="47"/>
+<property name="auxiliary;index" value="50"/>
                             </properties>
                         </pattern>
                     </lane>
-                    <lane hadOnlyOneElement="false" index="49" isChoiceOtherwiseLane="false" entity-id="32e841c0-cb3a-4c8b-aca4-a75d12fe9d3a">
+                    <lane hadOnlyOneElement="false" index="52" isChoiceOtherwiseLane="false" entity-id="5624523a-6bfc-463f-9897-430ad65af6ec">
                         <pattern name="Database" type="http://www.mulesoft.org/schema/mule/db/database-connector" entity-id="Database#6">
                             <graphicalData x="0" y="0" width="0" height="0"/>
                             <properties>
@@ -541,13 +526,13 @@
 <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/db/insert"/>
 <property name="autoGeneratedKeysColumnIndexes"/>
 <property name="config-ref" value="MySQL_Configuration"/>
-<property name="auxiliary;index" value="49"/>
+<property name="auxiliary;index" value="52"/>
 <property name="autoGeneratedKeys"/>
 <property name="bulkMode"/>
 <property-collection name="@http://www.mulesoft.org/schema/mule/db/parameterized-query;0">
     <property name="text" value="&#xA;                    &#x9;insert into mobile_token(customer_id, mobile_token_type_id, token) &#xA;                    &#x9;values (#[xpath:/mes:addMobileToken/mod:CustomerId], #[xpath:/mes:addMobileToken/mod:MobileTokenType], #[xpath:/mes:addMobileToken/mod:MobileToken])&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;on duplicate key update token = #[xpath:/mes:addMobileToken/mod:MobileToken]"/>
-    <property name="auxiliary;index" value="50"/>
-    <property name="auxiliary;wrapIn" value="50"/>
+    <property name="auxiliary;index" value="53"/>
+    <property name="auxiliary;wrapIn" value="53"/>
 </property-collection>
                             </properties>
                         </pattern>
@@ -555,27 +540,27 @@
                             <graphicalData x="0" y="0" width="0" height="0"/>
                             <properties>
 <property name="location" value="template/addMobileTokenResponse.xml"/>
-<property name="auxiliary;index" value="51"/>
+<property name="auxiliary;index" value="54"/>
                             </properties>
                         </pattern>
                     </lane>
-                    <lane hadOnlyOneElement="false" index="53" isChoiceOtherwiseLane="true" entity-id="f52f4297-9770-4706-81f9-2d53513f8d75">
+                    <lane hadOnlyOneElement="false" index="56" isChoiceOtherwiseLane="true" entity-id="5cf4a174-52cc-4e4b-b9fd-33c43522e3f2">
                         <pattern name="Exception" type="http://www.mulesoft.org/schema/mule/scripting/groovyComponent" entity-id="Groovy#1">
                             <graphicalData x="0" y="0" width="0" height="0"/>
                             <properties>
 <property name="script-ref"/>
-<property name="auxiliary;index" value="53"/>
-<property-collection name="@http://www.mulesoft.org/schema/mule/scripting/script;0">
-    <property name="text" value="throw new RuntimeException(&quot;Unknown Operation: &quot; + flowVars.opName);"/>
-    <property name="engine" value="Groovy"/>
-    <property name="auxiliary;index" value="54"/>
-    <property name="auxiliary;wrapIn" value="54"/>
-</property-collection>
+<property name="auxiliary;index" value="56"/>
 <property-collection name="@http://www.mulesoft.org/schema/mule/scripting/script-for-properties;0">
     <property name="text" value="throw new RuntimeException(&quot;Unknown Operation: &quot; + flowVars.opName);"/>
     <property name="engine" value="Groovy"/>
-    <property name="auxiliary;index" value="54"/>
-    <property name="auxiliary;wrapIn" value="54"/>
+    <property name="auxiliary;index" value="57"/>
+    <property name="auxiliary;wrapIn" value="57"/>
+</property-collection>
+<property-collection name="@http://www.mulesoft.org/schema/mule/scripting/script;0">
+    <property name="text" value="throw new RuntimeException(&quot;Unknown Operation: &quot; + flowVars.opName);"/>
+    <property name="engine" value="Groovy"/>
+    <property name="auxiliary;index" value="57"/>
+    <property name="auxiliary;wrapIn" value="57"/>
 </property-collection>
                             </properties>
                         </pattern>

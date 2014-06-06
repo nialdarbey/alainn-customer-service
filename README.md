@@ -29,7 +29,7 @@ Business Entity Service responsible for storage and retrieval of Customer data. 
 * **Bulk Mode** set to through for when Payload is a list. The connector will iterate through the list and resolve the values for each item as Payload. Hence #[payload.preference] on the insert notification preference is for each item on the list. Several SQL statements are sent in bulk to MySql.
 
 ## SalesForce Connector
-* I have yet to figure out how to get the new ID of the inserted Customer.
+* Get the new ID of the inserted Customer.
 
 # Contact
 nial.darbey@mulesoft.com
